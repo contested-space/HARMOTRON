@@ -1,0 +1,76 @@
+\documentclass{article}
+\usepackage[francais]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{tipa}
+\usepackage{amsmath, amssymb}
+\usepackage{hyperref}
+
+\setlength\parindent{0in}
+\setlength\topmargin{-0.25in}
+\setlength\headheight{0in}
+\setlength\headsep{0in}
+\setlength\topskip{0.5in}
+\setlength\textheight{9.75in}
+\setlength\textwidth{6.50in}
+\setlength\oddsidemargin{0in}
+\setlength\evensidemargin{0in}
+
+\title{HARMOTRON}
+\author{F}
+\date{\today}
+
+\begin{document}
+
+\section{Concept}
+The Harmotron is an idea for a dual control synthesizer. One of the controls
+will be the pitch of the tone generater (a harmonic rich sound) while the other
+will control the bandpass frequencies. This way, the user will be able play
+on both the main note (background) and the isolated frequencies for harmonic
+effect.
+
+\subsection{todo}
+\begin{description}
+\item continue to test effect of a specific bandpass fc on static signals
+\item find appropriate serie with shiftable parameter (like exponent exp<->log)
+\item generate sines on user input (midi input???). 
+\item generate appropriate filter on user input.
+\end{description}
+
+
+\section{Source synthesis}
+The source will be synthesized by adding sinusoids that are integer multiples of
+the fundamental frequency (user input). 
+
+Each harmonic will have an amplitude equal to its term in a serie determined
+by user input (harmonic, geometric, or something like that).
+
+\subsection{Formulaes and results}
+The following synthesis formulaes have been used and tested:
+\begin{description}
+\item 1)$synth(f, t) = \sum\limits_{n=1}^N a^n cos(2 \pi f t n /F_s)$
+\item 2)$synth(f, t) = \sum\limits_{n=1}^N a^n cos(2 \pi f t n /F_s)
+                     + \sum\limits_{n=1}^N a^n cos(2 \pi f t n /F_s * \frac{3}{2})
+                     + \sum\limits_{n=1}^N a^n cos(2 \pi f t n /F_s * 3)$
+\end{description}
+
+
+
+\section{filtering}
+The filter will be a bandpass (maybe morphing to a comb filter centered on $F_c$).
+$F_c$ will be dynamically determined by user input. 
+
+\subsection{reflexions on filtering}
+After a few initial tests, the concept works but needs refining. Some amplitudes
+were too low, others were a bit dissonant. The present hypothesis is that the
+filter frequency $F_c$ does not perfectly align with all harmonics, causing loss
+of amplitude and dissonances from letting pass untargeted frequencies in a 
+greater ratio. 
+
+As it is, a single harmonic may be passed at a time. By using parrallel filters, 
+it would be possible to play simultaneous harmonics by computing them all and
+controlling their amplitudes by user input (i.e. on/off from keyboard input).
+
+
+
+\end{document}
