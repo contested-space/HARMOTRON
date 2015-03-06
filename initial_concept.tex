@@ -24,7 +24,7 @@
 
 \section{Concept}
 The Harmotron is an idea for a dual control synthesizer. One of the controls
-will be the pitch of the tone generater (a harmonic rich sound) while the other
+will be the pitch of the tone generator (a harmonic rich sound) while the other
 will control the bandpass frequencies. This way, the user will be able play
 on both the main note (background) and the isolated frequencies for harmonic
 effect.
@@ -35,6 +35,7 @@ effect.
 \item find appropriate serie with shiftable parameter (like exponent exp<->log)
 \item generate sines on user input (midi input???). 
 \item generate appropriate filter on user input.
+\item implement adsr
 \end{description}
 
 
@@ -54,6 +55,8 @@ The following synthesis formulaes have been used and tested:
                      + \sum\limits_{n=1}^N a^n cos(2 \pi f t n /F_s * 3)$
 \end{description}
 
+It could be interesting to generate different type of spacing for the harmonics.
+Different series of ratios of other enharmonic (or is it xenharmonic?) ideas.
 
 
 \section{filtering}
@@ -71,6 +74,18 @@ As it is, a single harmonic may be passed at a time. By using parrallel filters,
 it would be possible to play simultaneous harmonics by computing them all and
 controlling their amplitudes by user input (i.e. on/off from keyboard input).
 
+\section{envelope}
+\subsection{initial gain}
+Since the signal is the result of coefficients of a geometric series multiplied
+by the amplitude of the \texttt{cos} function, it can be multiplied by its 
+inverse to reduce peaking. The total sum of a geometric series is known to be
+$\sum\limits_{n=1}^N a^n = \frac{1}{1 - a}$ if $\left|a\right| < 1$. It's
+iverse is $1 - a$. We estimate the energy of the \texttt{cos} function by
+taking $\int_{\frac{-\pi}{2}}^{\frac{\pi}{2}} \! cos(x)\, \mathrm{d}x = 2$ and 
+its inverse is of course $\frac{1}{2}$. Since int the case of the second
+synthesis formula, the series is applied three times,it seems wise to divide 
+the gain by 3.
 
+So the initial gain will be $\frac{1-a}{6}$
 
 \end{document}

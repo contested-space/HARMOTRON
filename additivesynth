@@ -16,7 +16,8 @@ NbHarmonics = 5;
 filter.butbp(200, 100);
 amp = midinote = 0;
 // Initializes the envelope
-//env.masr(100, 100);
+env.masr(1, 1);
+
 
 @slider
 
@@ -24,6 +25,7 @@ amp = midinote = 0;
 //amp = slider3;
 a = slider4;
 filter.butbp_set_q(slider5);
+amp = ((1 - a)*0.5)/3.0;
 
 @block
 while (n.notein()) (
@@ -56,6 +58,7 @@ while(i < N) (
 );
 
 out = filter.butbp_do(out);
+//out = env.masr_do(out);
 spl0 += amp * out;
 spl1 += amp * out;
 
